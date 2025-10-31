@@ -1,0 +1,19 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "packages/core/src/index.ts",
+    "packages/date/src/index.ts",
+    "packages/money/src/index.ts",
+    "packages/tree/src/index.ts",
+    "packages/url/src/index.ts"
+  ],
+  "out": "docs",
+  "readme": "README.md",
+  "name": "@genlib/toolkit API Documentation",
+  "tsconfig": "tsconfig.base.json",
+  "includeVersion": true,
+  "gitRevision": "main",
+  "sort": ["source-order"],
+  "categorizeByGroup": true,
+  "theme": "default"
+}

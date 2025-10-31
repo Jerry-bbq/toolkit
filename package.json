@@ -1,0 +1,31 @@
+{
+  "name": "@genlib/toolkit",
+  "private": true,
+  "packageManager": "pnpm@10.16.1",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "release": "changeset version && pnpm -r build && changeset publish",
+    "bench": "node packages/core/bench.mjs",
+    "docs": "typedoc"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.53.3",
+    "@types/node": "^24.9.2",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "changesets": "^1.0.2",
+    "eslint": "^9.38.0",
+    "tinybench": "^5.1.0",
+    "tsup": "^8.5.0",
+    "turbo": "^2.5.8",
+    "typedoc": "^0.28.14",
+    "typedoc-plugin-markdown": "^4.9.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.6"
+  }
+}

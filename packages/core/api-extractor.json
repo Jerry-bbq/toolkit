@@ -1,0 +1,6 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "./dist/index.d.ts",
+  "dtsRollup": { "enabled": true, "untrimmedFilePath": "./dist/index.api.d.ts" },
+  "messages": { "compilerMessageReporting": { "default": { "logLevel": "warning" } } }
+}

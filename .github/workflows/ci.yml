@@ -1,0 +1,30 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: true
+      - name: Build
+        run: pnpm run build
+      - name: Test
+        run: pnpm run test
+      - name: Lint
+        run: pnpm run lint || true
+      - name: API Extractor (core)
+        run: pnpm -C packages/core exec api-extractor run --local || true
+      - name: Bench (core)
+        run: pnpm run bench || true
