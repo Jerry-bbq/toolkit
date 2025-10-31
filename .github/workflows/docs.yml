@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'packages/**'
-      - 'typedoc.json'
+      - 'docs-site/**'
       - 'README.md'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
@@ -46,18 +46,17 @@ jobs:
         run: pnpm install
 
       - name: Build docs
-        run: pnpm run docs
+        run: pnpm run docs:build
 
       - name: Verify docs output
         run: |
-          ls -la docs/ | head -20
-          test -f docs/index.html && echo "✓ docs/index.html exists"
-          test -f docs/modules.html && echo "✓ docs/modules.html exists"
+          ls -la docs-site/.vitepress/dist/ | head -20
+          test -f docs-site/.vitepress/dist/index.html && echo "✓ docs-site/.vitepress/dist/index.html exists"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs
+          path: docs-site/.vitepress/dist
 
   deploy:
     environment:

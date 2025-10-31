@@ -11,7 +11,10 @@
     "lint": "turbo run lint",
     "release": "changeset version && pnpm -r build && changeset publish",
     "bench": "node packages/core/bench.mjs",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "docs:site": "pnpm exec vitepress dev docs-site",
+    "docs:build": "pnpm exec vitepress build docs-site",
+    "docs:preview": "pnpm exec vitepress preview docs-site"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.53.3",
@@ -26,6 +29,7 @@
     "typedoc": "^0.28.14",
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3",
+    "vitepress": "^1.6.4",
     "vitest": "^4.0.6"
   }
 }

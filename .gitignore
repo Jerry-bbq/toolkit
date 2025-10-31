@@ -25,3 +25,7 @@ docs/
 
 # Misc
 *.log
+
+# VitePress
+docs-site/.vitepress/dist/
+docs-site/.vitepress/cache/
