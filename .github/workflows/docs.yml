@@ -48,6 +48,12 @@ jobs:
       - name: Build docs
         run: pnpm run docs
 
+      - name: Verify docs output
+        run: |
+          ls -la docs/ | head -20
+          test -f docs/index.html && echo "✓ docs/index.html exists"
+          test -f docs/modules.html && echo "✓ docs/modules.html exists"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
