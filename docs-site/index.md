@@ -111,6 +111,11 @@ import { addDays, formatDate } from '@genlib/toolkit-date';
 
 [查看文档 →](/packages/url)
 
+### @genlib/toolkit-wechat
+微信网页授权登录（OAuth 2.0）
+
+[查看文档 →](/packages/wechat)
+
 </div>
 
 <style>

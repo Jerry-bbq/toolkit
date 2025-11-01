@@ -19,7 +19,8 @@ export default defineConfig({
                   { text: 'Is', link: '/packages/is' },
                   { text: 'Money', link: '/packages/money' },
                   { text: 'Tree', link: '/packages/tree' },
-                  { text: 'URL', link: '/packages/url' }
+                  { text: 'URL', link: '/packages/url' },
+                  { text: 'WeChat', link: '/packages/wechat' }
                 ]
         }
       ],

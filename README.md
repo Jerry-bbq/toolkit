@@ -17,13 +17,14 @@
 - `@genlib/toolkit-money`：金额/精度/格式化
 - `@genlib/toolkit-tree`：树与扁平转换/查找
 - `@genlib/toolkit-url`：查询串与 URL 构建
+- `@genlib/toolkit-wechat`：微信网页授权登录（OAuth 2.0）
 
 ## 安装
 建议使用 pnpm（也支持 npm/yarn）：
 ```bash
 pnpm add @genlib/toolkit-core
 # 按需选择其它子包
-pnpm add @genlib/toolkit-{date,is,money,tree,url}
+pnpm add @genlib/toolkit-{date,is,money,tree,url,wechat}
 ```
 
 ## 使用（按需导入）
@@ -41,6 +42,7 @@ import { uniqBy } from '@genlib/toolkit-core/array';
 - 单包示例：
 ```ts
 import { toQuery, buildUrl } from '@genlib/toolkit-url';
+import { generateAuthUrl, getAccessToken } from '@genlib/toolkit-wechat';
 ```
 
 注意：避免 `import * as core from '@genlib/toolkit-core'` 再使用命名空间访问，以免影响摇树效果。
@@ -63,9 +65,11 @@ toolkit/
   packages/
     core/
     date/
+    is/
     money/
     tree/
     url/
+    wechat/
   .github/workflows/ci.yml
   turbo.json
   pnpm-workspace.yaml
@@ -127,6 +131,7 @@ pnpm run docs:preview
 - [@genlib/toolkit-money](./packages/money/README.md) - 金额工具
 - [@genlib/toolkit-tree](./packages/tree/README.md) - 树结构工具
 - [@genlib/toolkit-url](./packages/url/README.md) - URL 工具
+- [@genlib/toolkit-wechat](./packages/wechat/README.md) - 微信授权登录
 
 ### 部署文档站点
 文档通过 GitHub Actions 自动部署到 GitHub Pages（参考 `.github/workflows/docs.yml`）。
