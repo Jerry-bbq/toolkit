@@ -6,6 +6,8 @@ import {
   refreshAccessToken,
   verifyAccessToken,
   getUserInfo,
+  WeChatError,
+  WeChatErrorCode,
 } from '../src/index';
 
 describe('generateAuthUrl', () => {
@@ -40,14 +42,15 @@ describe('generateAuthUrl', () => {
 });
 
 describe('generateAuthUrlWithState', () => {
-  it('should generate URL with random state', () => {
+  it('should generate URL with UUID state', () => {
     const result = generateAuthUrlWithState({
       appId: 'test-appid',
       redirectUri: 'https://example.com/callback',
     });
     expect(result.url).toContain('state=');
     expect(result.state).toBeTruthy();
-    expect(result.state.length).toBeGreaterThan(0);
+    // UUID v4 格式：xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx（36 个字符）
+    expect(result.state).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
   });
 
   it('should include state in generated URL', () => {
@@ -55,7 +58,25 @@ describe('generateAuthUrlWithState', () => {
       appId: 'test-appid',
       redirectUri: 'https://example.com/callback',
     });
-    expect(result.url).toContain(`state=${result.state}`);
+    expect(result.url).toContain(`state=${encodeURIComponent(result.state)}`);
+  });
+
+  it('should throw TypeError for invalid appId', () => {
+    expect(() => {
+      generateAuthUrlWithState({
+        appId: '',
+        redirectUri: 'https://example.com/callback',
+      });
+    }).toThrow(TypeError);
+  });
+
+  it('should throw TypeError for invalid redirectUri', () => {
+    expect(() => {
+      generateAuthUrlWithState({
+        appId: 'test-appid',
+        redirectUri: '',
+      });
+    }).toThrow(TypeError);
   });
 });
 
@@ -70,6 +91,7 @@ describe('getAccessToken', () => {
     };
 
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => mockResponse,
     });
 
@@ -82,12 +104,29 @@ describe('getAccessToken', () => {
     expect(result.openid).toBe('test-openid');
   });
 
-  it('should throw error on API error', async () => {
+  it('should throw WeChatError on API error', async () => {
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => ({ errcode: 40029, errmsg: 'invalid code' }),
     });
 
-    await expect(getAccessToken('appid', 'secret', 'code')).rejects.toThrow();
+    await expect(getAccessToken('appid', 'secret', 'code')).rejects.toThrow(WeChatError);
+    try {
+      await getAccessToken('appid', 'secret', 'code');
+    } catch (error) {
+      expect(error).toBeInstanceOf(WeChatError);
+      if (error instanceof WeChatError) {
+        expect(error.errcode).toBe(40029);
+        expect(error.errmsg).toBe('invalid code');
+        expect(error.is(WeChatErrorCode.INVALID_OAUTH_CODE)).toBe(true);
+      }
+    }
+  });
+
+  it('should throw TypeError for invalid parameters', async () => {
+    await expect(getAccessToken('', 'secret', 'code')).rejects.toThrow(TypeError);
+    await expect(getAccessToken('appid', '', 'code')).rejects.toThrow(TypeError);
+    await expect(getAccessToken('appid', 'secret', '')).rejects.toThrow(TypeError);
   });
 });
 
@@ -102,6 +141,7 @@ describe('refreshAccessToken', () => {
     };
 
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => mockResponse,
     });
 
@@ -112,11 +152,17 @@ describe('refreshAccessToken', () => {
     );
     expect(result.access_token).toBe('new-token');
   });
+
+  it('should throw TypeError for invalid parameters', async () => {
+    await expect(refreshAccessToken('', 'refresh-token')).rejects.toThrow(TypeError);
+    await expect(refreshAccessToken('appid', '')).rejects.toThrow(TypeError);
+  });
 });
 
 describe('verifyAccessToken', () => {
   it('should return true for valid token', async () => {
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => ({ errcode: 0 }),
     });
 
@@ -126,11 +172,17 @@ describe('verifyAccessToken', () => {
 
   it('should return false for invalid token', async () => {
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => ({ errcode: 40003, errmsg: 'invalid access_token' }),
     });
 
     const result = await verifyAccessToken('token', 'openid');
     expect(result).toBe(false);
+  });
+
+  it('should throw TypeError for invalid parameters', async () => {
+    await expect(verifyAccessToken('', 'openid')).rejects.toThrow(TypeError);
+    await expect(verifyAccessToken('token', '')).rejects.toThrow(TypeError);
   });
 });
 
@@ -148,6 +200,7 @@ describe('getUserInfo', () => {
     };
 
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => mockResponse,
     });
 
@@ -159,12 +212,19 @@ describe('getUserInfo', () => {
     expect(result.nickname).toBe('测试用户');
   });
 
-  it('should throw error on API error', async () => {
+  it('should throw WeChatError on API error', async () => {
     global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
       json: async () => ({ errcode: 40003, errmsg: 'invalid access_token' }),
     });
 
-    await expect(getUserInfo('token', 'openid')).rejects.toThrow();
+    await expect(getUserInfo('token', 'openid')).rejects.toThrow(WeChatError);
+  });
+
+  it('should throw TypeError for invalid parameters', async () => {
+    await expect(getUserInfo('', 'openid')).rejects.toThrow(TypeError);
+    await expect(getUserInfo('token', '')).rejects.toThrow(TypeError);
+    await expect(getUserInfo('token', 'openid', 'invalid' as 'zh_CN')).rejects.toThrow(TypeError);
   });
 });
 
