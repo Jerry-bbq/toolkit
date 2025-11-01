@@ -17,6 +17,16 @@
       "import": "./dist/object/index.mjs",
       "require": "./dist/object/index.cjs"
     },
+    "./array": {
+      "types": "./dist/array/index.d.ts",
+      "import": "./dist/array/index.mjs",
+      "require": "./dist/array/index.cjs"
+    },
+    "./string": {
+      "types": "./dist/string/index.d.ts",
+      "import": "./dist/string/index.mjs",
+      "require": "./dist/string/index.cjs"
+    },
     "./number": {
       "types": "./dist/number/index.d.ts",
       "import": "./dist/number/index.mjs",

@@ -1,2 +1,9 @@
 export { pick } from './pick';
 export { omit } from './omit';
+export { get } from './get';
+export { set } from './set';
+export { merge } from './merge';
+export { keys } from './keys';
+export { values } from './values';
+export { entries } from './entries';
+export { deepClone } from './deepClone';
