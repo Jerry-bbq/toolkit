@@ -43,6 +43,8 @@ importers:
 
   packages/date: {}
 
+  packages/is: {}
+
   packages/money: {}
 
   packages/tree: {}

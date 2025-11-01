@@ -13,13 +13,14 @@ export default defineConfig({
       '/packages/': [
         {
           text: '包文档',
-          items: [
-            { text: 'Core', link: '/packages/core' },
-            { text: 'Date', link: '/packages/date' },
-            { text: 'Money', link: '/packages/money' },
-            { text: 'Tree', link: '/packages/tree' },
-            { text: 'URL', link: '/packages/url' }
-          ]
+                items: [
+                  { text: 'Core', link: '/packages/core' },
+                  { text: 'Date', link: '/packages/date' },
+                  { text: 'Is', link: '/packages/is' },
+                  { text: 'Money', link: '/packages/money' },
+                  { text: 'Tree', link: '/packages/tree' },
+                  { text: 'URL', link: '/packages/url' }
+                ]
         }
       ],
       '/': [] // 首页不显示侧边栏

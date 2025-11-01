@@ -13,6 +13,7 @@
 ## 子包
 - `@genlib/toolkit-core`：核心函数（array/object/string/number/func）
 - `@genlib/toolkit-date`：日期工具（无全局 polyfill，显式 API）
+- `@genlib/toolkit-is`：类型检测库（参考 is 库重写，TypeScript 实现）
 - `@genlib/toolkit-money`：金额/精度/格式化
 - `@genlib/toolkit-tree`：树与扁平转换/查找
 - `@genlib/toolkit-url`：查询串与 URL 构建
@@ -22,7 +23,7 @@
 ```bash
 pnpm add @genlib/toolkit-core
 # 按需选择其它子包
-pnpm add @genlib/toolkit-{date,money,tree,url}
+pnpm add @genlib/toolkit-{date,is,money,tree,url}
 ```
 
 ## 使用（按需导入）
@@ -122,6 +123,7 @@ pnpm run docs:preview
 ### 快速参考（各包 README）
 - [@genlib/toolkit-core](./packages/core/README.md) - 核心工具函数
 - [@genlib/toolkit-date](./packages/date/README.md) - 日期工具
+- [@genlib/toolkit-is](./packages/is/README.md) - 类型检测库
 - [@genlib/toolkit-money](./packages/money/README.md) - 金额工具
 - [@genlib/toolkit-tree](./packages/tree/README.md) - 树结构工具
 - [@genlib/toolkit-url](./packages/url/README.md) - URL 工具
