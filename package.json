@@ -2,9 +2,7 @@
   "name": "@genlib/toolkit",
   "private": true,
   "packageManager": "pnpm@10.16.1",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
