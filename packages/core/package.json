@@ -1,6 +1,18 @@
 {
   "name": "@genlib/toolkit-core",
   "version": "0.1.0",
+  "description": "ESM 优先、可树摇的通用工具核心包（浏览器 + Node）",
+  "keywords": ["toolkit", "utility", "typescript", "esm", "tree-shakeable"],
+  "license": "MIT",
+  "author": "genlib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jerry-bbq/toolkit.git",
+    "directory": "packages/core"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",

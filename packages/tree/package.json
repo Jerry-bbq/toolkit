@@ -1,6 +1,18 @@
 {
   "name": "@genlib/toolkit-tree",
   "version": "0.1.0",
+  "description": "树结构处理工具（构建/扁平化/查询/过滤/插入/更新/删除/遍历）",
+  "keywords": ["tree", "tree-structure", "data-structure", "typescript", "esm"],
+  "license": "MIT",
+  "author": "genlib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jerry-bbq/toolkit.git",
+    "directory": "packages/tree"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",

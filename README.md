@@ -77,11 +77,20 @@ toolkit/
 
 ## 版本与发布
 - 使用 Changesets 进行语义化版本与变更日志管理。
-- 首发已准备 changeset，发布时执行：
+- 详细发布流程请参考 [发布指南](./RELEASE.md)。
+
+### 快速开始
 ```bash
-pnpm changeset version
-pnpm -r build
-pnpm changeset publish
+# 创建 changeset
+pnpm changeset
+
+# 提交 changeset
+git add .changeset
+git commit -m "chore: add changeset"
+git push
+
+# 发布（或使用自动发布流程）
+pnpm run release
 ```
 
 ## CI

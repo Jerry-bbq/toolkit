@@ -1,6 +1,18 @@
 {
   "name": "@genlib/toolkit-wechat",
   "version": "0.1.0",
+  "description": "微信网页授权登录工具（OAuth 2.0），支持生成授权 URL、获取 access_token、刷新 token、获取用户信息等功能",
+  "keywords": ["wechat", "weixin", "oauth", "oauth2", "authorization", "typescript", "esm"],
+  "license": "MIT",
+  "author": "genlib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jerry-bbq/toolkit.git",
+    "directory": "packages/wechat"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",
