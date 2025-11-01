@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # @genlib/toolkit-url
 
 查询串与 URL 构建工具（ESM 优先、可树摇）。

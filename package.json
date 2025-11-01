@@ -2,7 +2,9 @@
   "name": "@genlib/toolkit",
   "private": true,
   "packageManager": "pnpm@10.16.1",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
@@ -11,7 +13,6 @@
     "format": "biome format --write .",
     "release": "changeset version && pnpm -r build && changeset publish",
     "bench": "node packages/core/bench.mjs",
-    "docs": "typedoc",
     "docs:site": "pnpm exec vitepress dev docs-site",
     "docs:build": "pnpm exec vitepress build docs-site",
     "docs:preview": "pnpm exec vitepress preview docs-site"
@@ -24,10 +25,8 @@
     "tinybench": "^5.1.0",
     "tsup": "^8.5.0",
     "turbo": "^2.5.8",
-    "typedoc": "^0.28.14",
-    "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3",
-    "vitepress": "^1.6.4",
+    "vitepress": "2.0.0-alpha.12",
     "vitest": "^4.0.6"
   }
 }

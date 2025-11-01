@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # @genlib/toolkit-date
 
 日期工具（显式 API，无全局 polyfill）。

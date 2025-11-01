@@ -1,6 +1,6 @@
 # @genlib/toolkit (Monorepo)
 
-企业级前端工具函数库（浏览器 + Node），ESM 优先、CJS 兼容、按需导入、可树摇，内置类型、测试与 CI。
+前端工具函数库（浏览器 + Node），ESM 优先、CJS 兼容、按需导入、可树摇，内置类型、测试与 CI。
 
 ## 特性
 - ESM 优先 + CJS 兼容，`exports` 精确映射
@@ -101,17 +101,23 @@ GitHub Actions 在推送与 PR 时执行：构建、测试、Lint、API Extracto
 
 ## 📚 API 文档
 
-### 本地构建文档站点
+### 本地开发文档站点
 ```bash
-pnpm run docs
+pnpm run docs:site
 ```
-生成后的文档位于 `docs/` 目录，在浏览器打开 `docs/index.html` 即可查看完整的 TypeDoc API 文档。
+启动本地开发服务器，访问 http://localhost:5173 查看文档。
 
-文档包含：
-- 所有包的 API 索引
-- 类型定义与签名
-- 函数说明与参数
-- 代码示例
+### 构建文档站点
+```bash
+pnpm run docs:build
+```
+构建后的文档位于 `docs-site/.vitepress/dist/` 目录。
+
+### 预览构建后的文档
+```bash
+pnpm run docs:preview
+```
+预览构建后的文档，用于验证构建结果。
 
 ### 快速参考（各包 README）
 - [@genlib/toolkit-core](./packages/core/README.md) - 核心工具函数
@@ -121,6 +127,4 @@ pnpm run docs
 - [@genlib/toolkit-url](./packages/url/README.md) - URL 工具
 
 ### 部署文档站点
-文档可部署到 GitHub Pages、Netlify 或 Vercel：
-1. 构建：`pnpm run docs`
-2. 部署 `docs/` 目录即可
+文档通过 GitHub Actions 自动部署到 GitHub Pages（参考 `.github/workflows/docs.yml`）。

@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # @genlib/toolkit-core
 
 ESM 优先、可树摇的通用工具核心包（浏览器 + Node）。

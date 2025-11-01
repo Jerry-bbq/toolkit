@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # @genlib/toolkit-money
 
 金额工具（最小货币单位换算、舍入与格式化）。
