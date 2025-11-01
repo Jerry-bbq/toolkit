@@ -52,7 +52,8 @@ import { toQuery, buildUrl } from '@genlib/toolkit-url';
 ## 项目脚本
 - 构建：`pnpm run build`
 - 测试：`pnpm run test`（已设覆盖率阈值）
-- Lint：`pnpm run lint`（ESLint Flat 配置）
+- Lint：`pnpm run lint`（Biome 检查）
+- 格式化：`pnpm run format`（Biome 格式化）
 - 基准：`pnpm run bench`
 
 ## 目录结构

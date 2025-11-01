@@ -10,6 +10,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "noEmit": true,
+    "isolatedDeclarations": true,
+    "verbatimModuleSyntax": true,
     "types": ["vitest/globals"]
   }
 }

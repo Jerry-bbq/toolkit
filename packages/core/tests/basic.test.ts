@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { pick } from '../src/object/pick';
-import { omit } from '../src/object/omit';
+import { describe, expect, it } from 'vitest';
 import { clamp } from '../src/number/clamp';
+import { omit } from '../src/object/omit';
+import { pick } from '../src/object/pick';
 
 describe('object.pick/omit', () => {
   it('pick', () => {

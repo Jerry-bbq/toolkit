@@ -6,13 +6,20 @@ const toSegments = (path: Path): (string | number)[] =>
         .replace(/\[(\d+)\]/g, '.$1')
         .split('.')
         .filter(Boolean)
-        .map(s => (String(+s) === s ? +s : s));
+        .map((s) => (String(+s) === s ? +s : s));
 
-export const get = <T, D = undefined>(obj: T, path: Path, def?: D): any => {
-  let cur: any = obj;
+export const get = <T, D = undefined>(obj: T, path: Path, def?: D): D | unknown => {
+  let cur: unknown = obj;
   for (const seg of toSegments(path)) {
     if (cur == null) return def;
-    cur = typeof seg === 'number' ? cur[seg] : cur[seg];
+    if (typeof cur === 'object' && cur !== null) {
+      cur =
+        typeof seg === 'number'
+          ? (cur as Record<number, unknown>)[seg]
+          : (cur as Record<string, unknown>)[seg];
+    } else {
+      return def;
+    }
   }
   return cur === undefined ? def : cur;
 };

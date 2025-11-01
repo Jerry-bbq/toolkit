@@ -1,27 +1,33 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  toTree,
-  flattenTree,
-  findInTree,
-  findById,
-  findAllInTree,
   filterTree,
+  findAllInTree,
+  findById,
+  findInTree,
+  flattenTree,
+  getNodeDepth,
+  getNodePath,
   insertNode,
   insertNodeAt,
   removeNode,
-  updateNode,
+  toTree,
   traverseTree,
-  getNodePath,
-  getNodeDepth
+  updateNode,
 } from '../src/index';
 
+interface TestNode {
+  id: number;
+  parentId: number | null;
+  name: string;
+}
+
 describe('tree utils', () => {
-  const items = [
+  const items: TestNode[] = [
     { id: 1, parentId: null, name: 'Root 1' },
     { id: 2, parentId: 1, name: 'Child 1-1' },
     { id: 3, parentId: 1, name: 'Child 1-2' },
     { id: 4, parentId: 2, name: 'Grandchild 1-1-1' },
-    { id: 5, parentId: null, name: 'Root 2' }
+    { id: 5, parentId: null, name: 'Root 2' },
   ];
 
   describe('toTree', () => {
@@ -45,14 +51,14 @@ describe('tree utils', () => {
   describe('findInTree', () => {
     it('should find node by predicate', () => {
       const tree = toTree(items);
-      const found = findInTree(tree, node => (node as any).name === 'Child 1-1');
+      const found = findInTree(tree, (node) => (node as TestNode).name === 'Child 1-1');
       expect(found).toBeTruthy();
-      expect((found as any).name).toBe('Child 1-1');
+      expect((found as TestNode).name).toBe('Child 1-1');
     });
 
     it('should return undefined if not found', () => {
       const tree = toTree(items);
-      const found = findInTree(tree, node => (node as any).name === 'Not Found');
+      const found = findInTree(tree, (node) => (node as TestNode).name === 'Not Found');
       expect(found).toBeUndefined();
     });
   });
@@ -62,7 +68,7 @@ describe('tree utils', () => {
       const tree = toTree(items);
       const found = findById(tree, 2);
       expect(found).toBeTruthy();
-      expect((found as any).name).toBe('Child 1-1');
+      expect((found as TestNode).name).toBe('Child 1-1');
     });
 
     it('should return undefined if id not found', () => {
@@ -75,7 +81,7 @@ describe('tree utils', () => {
   describe('findAllInTree', () => {
     it('should find all matching nodes', () => {
       const tree = toTree(items);
-      const found = findAllInTree(tree, node => node.id > 2);
+      const found = findAllInTree(tree, (node) => node.id > 2);
       expect(found.length).toBeGreaterThan(0);
     });
   });
@@ -83,10 +89,10 @@ describe('tree utils', () => {
   describe('filterTree', () => {
     it('should filter tree keeping matched nodes and parents', () => {
       const tree = toTree(items);
-      const filtered = filterTree(tree, node => (node as any).name.includes('1-1'));
+      const filtered = filterTree(tree, (node) => (node as TestNode).name.includes('1-1'));
       expect(filtered.length).toBeGreaterThan(0);
       // 应该保留匹配节点及其父节点
-      const hasRoot1 = filtered.some(node => (node as any).name === 'Root 1');
+      const hasRoot1 = filtered.some((node) => (node as TestNode).name === 'Root 1');
       expect(hasRoot1).toBe(true);
     });
   });
@@ -94,15 +100,23 @@ describe('tree utils', () => {
   describe('insertNode', () => {
     it('should insert node under parent', () => {
       const tree = toTree(items);
-      const newNode = { id: 6, name: 'New Node', children: [] } as any;
+      const newNode: TestNode & { children?: unknown[] } = {
+        id: 6,
+        name: 'New Node',
+        children: [],
+      };
       const newTree = insertNode(tree, 1, newNode);
       const parent = findById(newTree, 1);
-      expect(parent?.children?.some(child => child.id === 6)).toBe(true);
+      expect(parent?.children?.some((child) => child.id === 6)).toBe(true);
     });
 
     it('should insert node at root level', () => {
       const tree = toTree(items);
-      const newNode = { id: 6, name: 'New Root', children: [] } as any;
+      const newNode: TestNode & { children?: unknown[] } = {
+        id: 6,
+        name: 'New Root',
+        children: [],
+      };
       const newTree = insertNode(tree, null, newNode);
       expect(newTree.length).toBe(tree.length + 1);
       expect(newTree[newTree.length - 1].id).toBe(6);
@@ -112,7 +126,11 @@ describe('tree utils', () => {
   describe('insertNodeAt', () => {
     it('should insert node at specific index', () => {
       const tree = toTree(items);
-      const newNode = { id: 6, name: 'New Node', children: [] } as any;
+      const newNode: TestNode & { children?: unknown[] } = {
+        id: 6,
+        name: 'New Node',
+        children: [],
+      };
       const newTree = insertNodeAt(tree, 1, 0, newNode);
       const parent = findById(newTree, 1);
       expect(parent?.children?.[0].id).toBe(6);
@@ -134,12 +152,12 @@ describe('tree utils', () => {
   describe('updateNode', () => {
     it('should update node', () => {
       const tree = toTree(items);
-      const newTree = updateNode(tree, 2, node => ({
+      const newTree = updateNode(tree, 2, (node) => ({
         ...node,
-        name: 'Updated Name'
+        name: 'Updated Name',
       }));
       const updated = findById(newTree, 2);
-      expect((updated as any).name).toBe('Updated Name');
+      expect((updated as TestNode).name).toBe('Updated Name');
     });
   });
 
@@ -147,7 +165,7 @@ describe('tree utils', () => {
     it('should traverse tree in pre-order', () => {
       const tree = toTree(items);
       const visited: number[] = [];
-      traverseTree(tree, node => visited.push(node.id), 'pre');
+      traverseTree(tree, (node) => visited.push(node.id), 'pre');
       expect(visited.length).toBe(5);
       expect(visited[0]).toBe(1); // Root first
     });
@@ -155,7 +173,7 @@ describe('tree utils', () => {
     it('should traverse tree in post-order', () => {
       const tree = toTree(items);
       const visited: number[] = [];
-      traverseTree(tree, node => visited.push(node.id), 'post');
+      traverseTree(tree, (node) => visited.push(node.id), 'post');
       expect(visited.length).toBe(5);
       expect(visited[visited.length - 1]).toBe(5); // Last root
     });
@@ -192,4 +210,3 @@ describe('tree utils', () => {
     });
   });
 });
-

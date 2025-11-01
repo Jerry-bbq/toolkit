@@ -2,13 +2,13 @@
   "name": "@genlib/toolkit",
   "private": true,
   "packageManager": "pnpm@10.16.1",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
-    "lint": "turbo run lint",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
     "release": "changeset version && pnpm -r build && changeset publish",
     "bench": "node packages/core/bench.mjs",
     "docs": "typedoc",
@@ -17,12 +17,10 @@
     "docs:preview": "pnpm exec vitepress preview docs-site"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@microsoft/api-extractor": "^7.53.3",
     "@types/node": "^24.9.2",
-    "@typescript-eslint/eslint-plugin": "^8.46.2",
-    "@typescript-eslint/parser": "^8.46.2",
     "changesets": "^1.0.2",
-    "eslint": "^9.38.0",
     "tinybench": "^5.1.0",
     "tsup": "^8.5.0",
     "turbo": "^2.5.8",

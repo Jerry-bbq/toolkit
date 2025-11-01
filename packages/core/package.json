@@ -7,18 +7,38 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.mjs", "require": "./dist/index.cjs" },
-    "./object": { "types": "./dist/object/index.d.ts", "import": "./dist/object/index.mjs", "require": "./dist/object/index.cjs" },
-    "./number": { "types": "./dist/number/index.d.ts", "import": "./dist/number/index.mjs", "require": "./dist/number/index.cjs" },
-    "./func": { "types": "./dist/func/index.d.ts", "import": "./dist/func/index.mjs", "require": "./dist/func/index.cjs" },
-    "./object/pick": { "types": "./dist/object/pick.d.ts", "import": "./dist/object/pick.mjs", "require": "./dist/object/pick.cjs" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./object": {
+      "types": "./dist/object/index.d.ts",
+      "import": "./dist/object/index.mjs",
+      "require": "./dist/object/index.cjs"
+    },
+    "./number": {
+      "types": "./dist/number/index.d.ts",
+      "import": "./dist/number/index.mjs",
+      "require": "./dist/number/index.cjs"
+    },
+    "./func": {
+      "types": "./dist/func/index.d.ts",
+      "import": "./dist/func/index.mjs",
+      "require": "./dist/func/index.cjs"
+    },
+    "./object/pick": {
+      "types": "./dist/object/pick.d.ts",
+      "import": "./dist/object/pick.mjs",
+      "require": "./dist/object/pick.cjs"
+    }
   },
   "files": ["dist"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "lint": "eslint . --ext .ts"
+    "lint": "biome check src"
   },
   "engines": { "node": ">=18" }
 }

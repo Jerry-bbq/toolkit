@@ -1,4 +1,4 @@
-export const debounce = <F extends (...a: any[]) => any>(fn: F, wait = 200) => {
+export const debounce = <F extends (...args: unknown[]) => unknown>(fn: F, wait = 200): F => {
   let t: ReturnType<typeof setTimeout> | undefined;
   return ((...args: Parameters<F>) => {
     if (t) clearTimeout(t);

@@ -1,11 +1,12 @@
-import { defineConfig } from "tsup";
-export default defineConfig({
-  entry: { index: "src/index.ts" },
+import { defineConfig } from 'tsup';
+const config = defineConfig({
+  entry: { index: 'src/index.ts' },
   dts: true,
-  format: ["esm", "cjs"],
+  format: ['esm', 'cjs'],
   treeshake: true,
   sourcemap: true,
   clean: true,
-  target: "es2020",
-  minify: false
-});
+  target: 'es2020',
+  minify: false,
+}) as ReturnType<typeof defineConfig>;
+export default config;

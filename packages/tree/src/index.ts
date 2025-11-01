@@ -1,7 +1,7 @@
 /**
  * 树节点类型定义
  */
-export type TreeNode<T = any> = T & {
+export type TreeNode<T = Record<string, unknown>> = T & {
   id: string | number;
   children?: TreeNode<T>[];
 };
@@ -24,7 +24,8 @@ export const toTree = <T extends { id: string | number; parentId?: string | numb
 
   // 构建父子关系
   for (const item of items) {
-    const node = map.get(item.id)!;
+    const node = map.get(item.id);
+    if (!node) continue;
     if (item.parentId == null || item.parentId === '') {
       roots.push(node);
     } else {
@@ -47,11 +48,12 @@ export const toTree = <T extends { id: string | number; parentId?: string | numb
 export const flattenTree = <T extends { id: string | number; children?: T[] }>(
   nodes: TreeNode<T>[]
 ): Omit<T, 'children'>[] => {
-  const result: any[] = [];
-  const stack = [...nodes];
+  const result: Omit<T, 'children'>[] = [];
+  const stack: TreeNode<T>[] = [...nodes];
 
   while (stack.length > 0) {
-    const node: any = stack.shift()!;
+    const node = stack.shift();
+    if (!node) continue;
     const { children, ...rest } = node;
     result.push(rest);
     if (children && children.length > 0) {
@@ -68,11 +70,15 @@ export const flattenTree = <T extends { id: string | number; children?: T[] }>(
  * @param predicate 查找条件函数
  * @returns 找到的节点，未找到返回 undefined
  */
-export const findInTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNode<T>) => boolean): TreeNode<T> | undefined => {
+export const findInTree = <T>(
+  nodes: TreeNode<T>[],
+  predicate: (node: TreeNode<T>) => boolean
+): TreeNode<T> | undefined => {
   const stack = [...nodes];
 
   while (stack.length > 0) {
-    const node = stack.shift()!;
+    const node = stack.shift();
+    if (!node) continue;
     if (predicate(node)) {
       return node;
     }
@@ -91,7 +97,7 @@ export const findInTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNode<T
  * @returns 找到的节点，未找到返回 undefined
  */
 export const findById = <T>(nodes: TreeNode<T>[], id: string | number): TreeNode<T> | undefined => {
-  return findInTree(nodes, node => node.id === id);
+  return findInTree(nodes, (node) => node.id === id);
 };
 
 /**
@@ -100,12 +106,16 @@ export const findById = <T>(nodes: TreeNode<T>[], id: string | number): TreeNode
  * @param predicate 查找条件函数
  * @returns 所有匹配的节点数组
  */
-export const findAllInTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNode<T>) => boolean): TreeNode<T>[] => {
+export const findAllInTree = <T>(
+  nodes: TreeNode<T>[],
+  predicate: (node: TreeNode<T>) => boolean
+): TreeNode<T>[] => {
   const result: TreeNode<T>[] = [];
   const stack = [...nodes];
 
   while (stack.length > 0) {
-    const node = stack.shift()!;
+    const node = stack.shift();
+    if (!node) continue;
     if (predicate(node)) {
       result.push(node);
     }
@@ -123,7 +133,10 @@ export const findAllInTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNod
  * @param predicate 过滤条件函数
  * @returns 过滤后的树（保留匹配节点及其父节点）
  */
-export const filterTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNode<T>) => boolean): TreeNode<T>[] => {
+export const filterTree = <T>(
+  nodes: TreeNode<T>[],
+  predicate: (node: TreeNode<T>) => boolean
+): TreeNode<T>[] => {
   const filterNode = (node: TreeNode<T>): TreeNode<T> | null => {
     const matched = predicate(node);
     const filteredChildren: TreeNode<T>[] = [];
@@ -140,7 +153,7 @@ export const filterTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNode<T
     if (matched || filteredChildren.length > 0) {
       return {
         ...node,
-        children: filteredChildren.length > 0 ? filteredChildren : undefined
+        children: filteredChildren.length > 0 ? filteredChildren : undefined,
       };
     }
 
@@ -157,23 +170,27 @@ export const filterTree = <T>(nodes: TreeNode<T>[], predicate: (node: TreeNode<T
  * @param newNode 新节点
  * @returns 新的树结构（不可变）
  */
-export const insertNode = <T>(nodes: TreeNode<T>[], parentId: string | number | null, newNode: TreeNode<T>): TreeNode<T>[] => {
+export const insertNode = <T>(
+  nodes: TreeNode<T>[],
+  parentId: string | number | null,
+  newNode: TreeNode<T>
+): TreeNode<T>[] => {
   if (parentId === null) {
     return [...nodes, newNode];
   }
 
   const insertRecursive = (nodeList: TreeNode<T>[]): TreeNode<T>[] => {
-    return nodeList.map(node => {
+    return nodeList.map((node) => {
       if (node.id === parentId) {
         return {
           ...node,
-          children: [...(node.children || []), newNode]
+          children: [...(node.children || []), newNode],
         };
       }
       if (node.children) {
         return {
           ...node,
-          children: insertRecursive(node.children)
+          children: insertRecursive(node.children),
         };
       }
       return node;
@@ -204,20 +221,20 @@ export const insertNodeAt = <T>(
   }
 
   const insertRecursive = (nodeList: TreeNode<T>[]): TreeNode<T>[] => {
-    return nodeList.map(node => {
+    return nodeList.map((node) => {
       if (node.id === parentId) {
         const children = node.children || [];
         const newChildren = [...children];
         newChildren.splice(index, 0, newNode);
         return {
           ...node,
-          children: newChildren
+          children: newChildren,
         };
       }
       if (node.children) {
         return {
           ...node,
-          children: insertRecursive(node.children)
+          children: insertRecursive(node.children),
         };
       }
       return node;
@@ -236,12 +253,12 @@ export const insertNodeAt = <T>(
 export const removeNode = <T>(nodes: TreeNode<T>[], id: string | number): TreeNode<T>[] => {
   const removeRecursive = (nodeList: TreeNode<T>[]): TreeNode<T>[] => {
     return nodeList
-      .filter(node => node.id !== id)
-      .map(node => {
+      .filter((node) => node.id !== id)
+      .map((node) => {
         if (node.children) {
           return {
             ...node,
-            children: removeRecursive(node.children)
+            children: removeRecursive(node.children),
           };
         }
         return node;
@@ -258,16 +275,20 @@ export const removeNode = <T>(nodes: TreeNode<T>[], id: string | number): TreeNo
  * @param updater 更新函数，接收原节点返回新节点
  * @returns 新的树结构（不可变）
  */
-export const updateNode = <T>(nodes: TreeNode<T>[], id: string | number, updater: (node: TreeNode<T>) => TreeNode<T>): TreeNode<T>[] => {
+export const updateNode = <T>(
+  nodes: TreeNode<T>[],
+  id: string | number,
+  updater: (node: TreeNode<T>) => TreeNode<T>
+): TreeNode<T>[] => {
   const updateRecursive = (nodeList: TreeNode<T>[]): TreeNode<T>[] => {
-    return nodeList.map(node => {
+    return nodeList.map((node) => {
       if (node.id === id) {
         return updater(node);
       }
       if (node.children) {
         return {
           ...node,
-          children: updateRecursive(node.children)
+          children: updateRecursive(node.children),
         };
       }
       return node;
@@ -312,7 +333,11 @@ export const traverseTree = <T>(
  * @returns 从根到目标节点的路径数组
  */
 export const getNodePath = <T>(nodes: TreeNode<T>[], id: string | number): TreeNode<T>[] => {
-  const findPath = (nodeList: TreeNode<T>[], targetId: string | number, path: TreeNode<T>[]): TreeNode<T>[] | null => {
+  const findPath = (
+    nodeList: TreeNode<T>[],
+    targetId: string | number,
+    path: TreeNode<T>[]
+  ): TreeNode<T>[] | null => {
     for (const node of nodeList) {
       const currentPath = [...path, node];
       if (node.id === targetId) {

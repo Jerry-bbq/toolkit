@@ -5,7 +5,8 @@ export const pick = <T extends object, const K extends readonly (keyof T)[]>(
   const out = {} as Pick<T, K[number]>;
   for (const k of keys) {
     if (Object.prototype.hasOwnProperty.call(obj, k)) {
-      (out as any)[k as keyof T] = (obj as any)[k];
+      const key = k as keyof Pick<T, K[number]>;
+      out[key] = obj[k] as Pick<T, K[number]>[typeof key];
     }
   }
   return out;
