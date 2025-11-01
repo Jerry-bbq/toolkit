@@ -57,4 +57,3 @@ export const getCurrencySymbol = (currency: string): string => {
 export const getCurrencyName = (currency: string): string => {
   return CURRENCY_NAMES[currency.toUpperCase()] || currency.toUpperCase();
 };
-

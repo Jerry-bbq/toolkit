@@ -19,4 +19,3 @@ export const fromMinor = (minor: number, digits = 2): number => {
   const divisor = 10 ** digits;
   return minor / divisor;
 };
-

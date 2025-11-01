@@ -32,4 +32,3 @@ export const truncateMoney = (amount: number, digits = 2): number => {
 export const toFixedMoney = (amount: number, digits = 2): string => {
   return amount.toFixed(digits);
 };
-

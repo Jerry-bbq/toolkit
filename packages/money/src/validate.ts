@@ -15,4 +15,3 @@ export const isValidAmount = (amount: unknown): amount is number => {
   }
   return amount >= 0;
 };
-

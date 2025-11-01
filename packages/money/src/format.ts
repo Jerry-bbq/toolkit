@@ -39,4 +39,3 @@ export const formatMoneyWithSymbol = (
   }).format(amount);
   return `${symbol}${formatted}`;
 };
-

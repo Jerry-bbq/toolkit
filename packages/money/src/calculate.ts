@@ -47,4 +47,3 @@ export const divideMoney = (a: number, b: number, digits = 2): number => {
   }
   return roundMoney(a / b, digits);
 };
-

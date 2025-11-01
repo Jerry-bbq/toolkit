@@ -61,4 +61,3 @@ export const isMoneyGreaterOrEqual = (a: number, b: number): boolean => {
 export const isMoneyLessOrEqual = (a: number, b: number): boolean => {
   return compareMoney(a, b) <= 0;
 };
-
